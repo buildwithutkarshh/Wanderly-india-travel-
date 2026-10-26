@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#102b35">
+<meta name="description" content="Discover India beyond the ordinary with Wanderly — curated journeys, culture, nature and unforgettable experiences.">
+<title>Wanderly — Discover India, Differently</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#172d31;--paper:#fff9ee;--cream:#f5eddd;--muted:#647578;
+  --saffron:#ed7839;--teal:#087e83;--gold:#d9ac48;--rose:#c85c68;
+  --line:rgba(23,45,49,.13);--shadow:0 20px 60px rgba(23,45,49,.12);
+  --serif:"Playfair Display",Georgia,serif;--sans:"DM Sans",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:95px}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);overflow-x:hidden;line-height:1.6}
+body.menu-open{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+button{cursor:pointer}
+img{display:block;max-width:100%}
+:focus-visible{outline:3px solid var(--saffron);outline-offset:4px}
+::selection{background:var(--gold);color:var(--ink)}
+.skip{position:fixed;left:12px;top:-60px;z-index:100;background:var(--ink);color:white;padding:12px 18px;border-radius:12px}
+.skip:focus{top:12px}
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--saffron);z-index:100;transition:width .1s linear}
+.wrap{width:min(1160px,calc(100% - 40px));margin-inline:auto}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;font-weight:700;color:var(--teal)}
+.eyebrow:before{content:"";width:25px;height:2px;background:var(--saffron)}
+h1,h2,h3,.brand{font-family:var(--serif);font-weight:600;line-height:1.08;letter-spacing:-.035em}
+h2{font-size:clamp(2.1rem,5vw,4rem)}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:32px}
+.section-head p{max-width:420px;color:var(--muted)}
+.section{padding:96px 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 22px;border:1px solid transparent;border-radius:999px;background:var(--saffron);color:white;font-weight:700;box-shadow:0 10px 25px rgba(237,120,57,.22);transition:transform .25s,box-shadow .25s,background .25s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 16px 30px rgba(237,120,57,.28);background:#d96227}
+.btn.dark{background:var(--ink);box-shadow:none}.btn.dark:hover{background:var(--teal)}
+.btn.outline{background:transparent;color:var(--ink);border-color:var(--line);box-shadow:none}
+.btn.outline:hover{background:white;border-color:var(--teal)}
+.btn.small{padding:10px 16px;font-size:.9rem}
+.icon{width:20px;height:20px;display:inline-grid;place-items:center}
+header{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;width:min(1200px,calc(100% - 28px));display:flex;align-items:center;justify-content:space-between;padding:10px 12px 10px 22px;background:rgba(255,249,238,.9);border:1px solid rgba(255,255,255,.75);border-radius:999px;box-shadow:0 8px 35px rgba(23,45,49,.1);backdrop-filter:blur(18px)}
+.brand{display:flex;align-items:center;gap:9px;font-size:1.6rem;letter-spacing:-.05em}
+.brand-mark{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--teal);color:#fff;font-family:var(--sans);font-size:1rem}
+nav ul{display:flex;align-items:center;gap:5px;list-style:none}
+nav a{display:block;padding:10px 13px;border-radius:999px;color:#536467;font-size:.91rem;font-weight:600;transition:.2s}
+nav a:hover,nav a.active{background:#e5eee8;color:var(--ink)}
+.nav-cta{padding:11px 18px!important;background:var(--ink)!important;color:#fff!important}
+#menuBtn{display:none;border:0;background:transparent;color:var(--ink);font-size:1.5rem;padding:8px}
+.hero{position:relative;min-height:760px;min-height:min(900px,100svh);display:grid;align-items:center;padding:150px 0 70px;overflow:hidden;background:#dbe6d7}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,36,39,.76) 0%,rgba(12,36,39,.48) 46%,rgba(12,36,39,.04) 100%),url('https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=2200&q=88') center 45%/cover;transform:scale(1.06);animation:heroZoom 18s ease-in-out infinite alternate}
+.hero-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(9,30,32,.45),transparent 42%)}
+.hero-content{position:relative;z-index:2;color:#fff;max-width:760px;padding:40px 0;animation:fadeUp .9s both}
+.hero .eyebrow{color:#f5d99c}.hero .eyebrow:before{background:#f5d99c}
+.hero h1{font-size:clamp(3.5rem,8.4vw,7.6rem);margin:22px 0;max-width:850px;line-height:.98}
+.hero h1 em{font-weight:500;color:#f6d18c}
+.hero-copy{max-width:540px;font-size:clamp(1rem,1.6vw,1.2rem);color:rgba(255,255,255,.86);margin-bottom:30px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero .btn.outline{color:white;border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.08);backdrop-filter:blur(8px)}
+.hero .btn.outline:hover{background:rgba(255,255,255,.18)}
+.hero-stamp{position:absolute;right:7%;bottom:10%;z-index:2;width:126px;height:126px;border:1px solid rgba(255,255,255,.6);border-radius:50%;display:grid;place-items:center;text-align:center;color:white;font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;animation:spin 28s linear infinite}
+.hero-stamp strong{font:600 1.45rem var(--serif);letter-spacing:0;display:block}
+.hero-bottom{position:absolute;bottom:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--saffron),var(--gold),var(--teal))}
+.search-panel{position:relative;z-index:5;margin-top:-34px}
+.search-inner{background:white;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:22px;padding:20px;display:grid;grid-template-columns:1.5fr 1fr 1fr auto;gap:14px;align-items:end}
+.field{display:grid;gap:7px;min-width:0}
+.field label{font-size:.78rem;font-weight:700;color:var(--muted)}
+.field input,.field select{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;padding:13px 12px;background:#fffdf8;color:var(--ink);outline-offset:2px}
+.field input:focus,.field select:focus{border-color:var(--teal)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:40px 0 10px}
+.stat{padding:10px 20px;border-left:2px solid var(--gold)}
+.stat strong{display:block;font:600 2.2rem var(--serif);line-height:1.1}
+.stat span{font-size:.86rem;color:var(--muted)}
+.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.intro-art{position:relative;min-height:490px}
+.intro-art img{width:80%;height:450px;object-fit:cover;border-radius:180px 180px 22px 22px;box-shadow:var(--shadow)}
+.intro-art .small-art{position:absolute;width:42%;height:230px;object-fit:cover;right:0;bottom:0;border:8px solid var(--paper);border-radius:90px 90px 18px 18px}
+.round-note{position:absolute;left:3%;bottom:15px;background:var(--gold);width:112px;height:112px;border-radius:50%;display:grid;place-items:center;text-align:center;font-size:.75rem;font-weight:700;transform:rotate(-10deg);box-shadow:0 10px 30px rgba(23,45,49,.13)}
+.intro-copy h2{margin:16px 0 22px}.intro-copy p{color:var(--muted);margin-bottom:20px}
+.benefits{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}
+.benefit{display:flex;gap:11px;align-items:start;font-size:.93rem;font-weight:600}
+.benefit span:first-child{width:30px;height:30px;flex:none;display:grid;place-items:center;background:#e0eee6;color:var(--teal);border-radius:50%}
+.destinations{background:#f2ead9}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:28px}
+.filter{border:1px solid var(--line);background:transparent;color:var(--muted);padding:10px 17px;border-radius:999px;font-weight:700;font-size:.88rem;transition:.22s}
+.filter:hover,.filter.active{background:var(--ink);border-color:var(--ink);color:white}
+.dest-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.dest-card{position:relative;min-height:400px;border-radius:22px;overflow:hidden;background:#c8d8d1;isolation:isolate;transform:translateY(0);transition:transform .35s,box-shadow .35s;cursor:pointer}
+.dest-card:hover{transform:translateY(-7px);box-shadow:0 20px 45px rgba(23,45,49,.18)}
+.dest-card.hidden{display:none}
+.dest-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.dest-card:hover img{transform:scale(1.08)}
+.dest-card:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,30,32,.03) 20%,rgba(10,30,32,.86) 100%);z-index:0}
+.card-top{position:absolute;top:18px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:center;z-index:1}
+.pill{padding:7px 11px;border-radius:999px;background:rgba(255,249,238,.92);font-size:.72rem;font-weight:700;color:var(--ink)}
+.heart{width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,249,238,.9);font-size:1.1rem;color:var(--rose);transition:transform .2s}
+.heart:hover{transform:scale(1.12)}
+.heart.saved{background:var(--rose);color:white}
+.card-body{position:absolute;z-index:1;left:22px;right:22px;bottom:22px;color:white}
+.card-body h3{font-size:2.1rem;margin-bottom:7px}
+.card-body p{font-size:.9rem;color:rgba(255,255,255,.83);min-height:48px}
+.card-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid rgba(255,255,255,.3);margin-top:15px;padding-top:13px;font-size:.83rem}
+.card-meta strong{color:#ffe0a0}
+.card-arrow{width:34px;height:34px;border:1px solid rgba(255,255,255,.6);border-radius:50%;display:grid;place-items:center;transition:.2s}
+.dest-card:hover .card-arrow{background:white;color:var(--ink);transform:rotate(-35deg)}
+.empty-state{display:none;padding:30px;text-align:center;color:var(--muted)}
+.region-band{background:var(--teal);color:white;position:relative;overflow:hidden}
+.region-band:before{content:"भारत";position:absolute;font:700 clamp(9rem,25vw,22rem) var(--serif);color:rgba(255,255,255,.05);right:-1%;top:50%;transform:translateY(-50%);pointer-events:none}
+.region-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.1fr;gap:50px;align-items:center}
+.region-inner .eyebrow{color:#f6d18c}.region-inner .eyebrow:before{background:#f6d18c}
+.region-inner h2{margin:16px 0 20px}.region-inner p{color:rgba(255,255,255,.8);max-width:480px}
+.region-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.region{display:flex;align-items:center;gap:12px;padding:17px 15px;border:1px solid rgba(255,255,255,.25);border-radius:15px;background:rgba(255,255,255,.07);transition:background .25s,transform .25s}
+.region:hover{background:rgba(255,255,255,.16);transform:translateY(-3px)}
+.region .emoji{font-size:1.5rem}.region strong{display:block}.region small{color:rgba(255,255,255,.7)}
+.experiences{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.exp{position:relative;min-height:260px;border-radius:20px;overflow:hidden;color:white;isolation:isolate}
+.exp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .6s}
+.exp:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,30,32,.8),transparent 80%);z-index:-1}
+.exp:hover img{transform:scale(1.08)}
+.exp-content{position:absolute;left:18px;right:18px;bottom:18px}.exp-content span{font-size:.76rem;text-transform:uppercase;letter-spacing:.12em;color:#ffdf9d}.exp-content h3{font-size:1.45rem;margin-top:5px}
+.globe-section{background:#122d35;color:white;overflow:hidden}
+.globe-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:35px;align-items:center}
+.globe-section .eyebrow{color:#f6d18c}.globe-section .eyebrow:before{background:#f6d18c}
+.globe-section p{color:rgba(255,255,255,.74);margin:18px 0 25px;max-width:480px}
+.globe-wrap{position:relative;min-height:400px;display:grid;place-items:center}
+.globe-orbit{width:min(390px,90%);aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.17);display:grid;place-items:center;position:relative;animation:orbit 24s linear infinite}
+.globe-orbit:before,.globe-orbit:after{content:"";position:absolute;inset:9%;border:1px solid rgba(246,209,140,.24);border-radius:50%;transform:rotateX(68deg)}
+.globe-orbit:after{transform:rotateY(68deg)}
+.globe-core{width:76%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 25%,#66b8a5,#167b83 45%,#10434e 75%,#0a242c);box-shadow:inset -22px -15px 35px rgba(0,0,0,.4),0 0 55px rgba(39,190,174,.2);position:relative;overflow:hidden;animation:float 5s ease-in-out infinite alternate}
+.globe-core:before{content:"";position:absolute;inset:0;background-image:radial-gradient(ellipse at 58% 37%,#e2c98e 0 8%,transparent 8.5%),radial-gradient(ellipse at 48% 45%,#e2c98e 0 5%,transparent 5.5%),radial-gradient(ellipse at 61% 57%,#e2c98e 0 9%,transparent 9.5%),radial-gradient(ellipse at 39% 65%,#e2c98e 0 5%,transparent 5.5%);opacity:.9;filter:blur(.2px)}
+.globe-pin{position:absolute;z-index:2;width:12px;height:12px;border-radius:50%;background:#ffd783;box-shadow:0 0 0 7px rgba(255,215,131,.14),0 0 25px #ffd783;animation:pulse 2s infinite}
+.pin1{top:38%;left:58%}.pin2{top:54%;left:62%;animation-delay:.5s}.pin3{top:61%;left:49%;animation-delay:1s}
+.globe-label{position:absolute;z-index:3;background:rgba(255,249,238,.95);color:var(--ink);padding:8px 12px;border-radius:9px;font-size:.75rem;font-weight:700;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+.label1{top:23%;right:4%}.label2{bottom:23%;left:2%}
+.planner{background:#f2ead9}
+.planner-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:35px;align-items:start}
+.planner-intro{position:sticky;top:120px}
+.planner-intro h2{margin:15px 0 18px}.planner-intro p{color:var(--muted);margin-bottom:20px}
+.planner-card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:var(--shadow)}
+.planner-card h3{font-size:1.8rem;margin-bottom:20px}
+.planner-fields{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field.full{grid-column:1/-1}
+.range-head{display:flex;justify-content:space-between;gap:10px}.range-head output{color:var(--teal);font-weight:700}
+input[type=range]{width:100%;accent-color:var(--saffron);padding:0;margin-top:5px}
+.price-box{margin-top:24px;padding:22px;border-radius:18px;background:var(--ink);color:white}
+.price-box .muted{color:rgba(255,255,255,.65);font-size:.85rem}
+.price-line{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:6px 0 12px}
+.price-line strong{font:600 clamp(2rem,5vw,3.2rem) var(--serif);color:#ffdc94;line-height:1}
+.price-box p{font-size:.82rem;color:rgba(255,255,255,.65)}
+.price-box .btn{width:100%;margin-top:17px}
+.form-status{min-height:1.4em;color:var(--rose);font-size:.82rem}
+.booking-section{background:var(--paper)}
+.booking-grid{display:grid;grid-template-columns:1fr 1fr;gap:55px;align-items:start}
+.booking-copy h2{margin:15px 0 18px}.booking-copy p{color:var(--muted);max-width:450px}
+.booking-points{display:grid;gap:13px;margin-top:28px}
+.booking-points div{display:flex;align-items:center;gap:12px;font-weight:600}
+.booking-points span{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#e0eee6;color:var(--teal)}
+.booking-form{padding:28px;background:white;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
+.booking-form h3{font-size:1.7rem;margin-bottom:20px}
+.booking-form .field{margin-bottom:15px}
+.booking-form textarea{width:100%;min-height:90px;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:13px;background:#fffdf8;color:var(--ink);font:inherit}
+.booking-form .btn{width:100%}
+.success{display:none;padding:20px;background:#e0eee6;border:1px solid #a3d3bd;color:#174b3d;border-radius:14px}
+.success.show{display:block}
+footer{background:#102b35;color:white;padding:55px 0 24px}
+.footer-top{display:flex;justify-content:space-between;gap:35px;align-items:start;padding-bottom:35px;border-bottom:1px solid rgba(255,255,255,.17)}
+.footer-brand{max-width:390px}.footer-brand .brand{color:white}.footer-brand p{color:rgba(255,255,255,.65);margin-top:15px}
+.footer-links{display:flex;gap:55px}.footer-col strong{display:block;margin-bottom:12px}.footer-col a{display:block;color:rgba(255,255,255,.68);margin:8px 0;font-size:.9rem}.footer-col a:hover{color:#ffdc94}
+.footer-bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:20px;color:rgba(255,255,255,.55);font-size:.82rem}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:100;background:var(--ink);color:white;padding:13px 18px;border-radius:999px;box-shadow:var(--shadow);transition:.3s;font-size:.9rem;max-width:calc(100% - 30px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.visible{opacity:1;transform:none}
+.delay-1{transition-delay:.08s}.delay-2{transition-delay:.16s}.delay-3{transition-delay:.24s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
+@keyframes heroZoom{from{transform:scale(1.04)}to{transform:scale(1.12)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes orbit{to{transform:rotate(360deg)}}
+@keyframes float{to{transform:translateY(-7px)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 5px rgba(255,215,131,.12),0 0 20px #ffd783}50%{box-shadow:0 0 0 11px rgba(255,215,131,.03),0 0 30px #ffd783}}
+@media(max-width:900px){
+  nav ul{gap:0}nav a{padding:9px 10px;font-size:.84rem}.nav-cta{padding:10px 13px!important}
+  .search-inner{grid-template-columns:1fr 1fr}.search-inner .btn{grid-column:1/-1}
+  .dest-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .intro-grid{gap:35px}.experiences{grid-template-columns:repeat(2,1fr)}
+  .region-inner,.globe-grid,.planner-grid,.booking-grid{grid-template-columns:1fr}
+  .planner-intro{position:static}.globe-grid{gap:10px}.globe-wrap{min-height:360px}
+}
+@media(max-width:680px){
+  .wrap{width:min(100% - 28px,560px)}
+  header{top:8px;padding:8px 9px 8px 16px}
+  .brand{font-size:1.4rem}.brand-mark{width:29px;height:29px}
+  #menuBtn{display:block}
+  nav ul{display:none;position:absolute;top:62px;left:0;right:0;padding:12px;background:rgba(255,249,238,.98);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);flex-direction:column;align-items:stretch}
+  nav ul.open{display:flex}
+  nav a{padding:13px 14px;font-size:.95rem}
+  .nav-cta{margin-top:5px;text-align:center}
+  .hero{min-height:730px;min-height:88svh;padding:120px 0 65px}
+  .hero-bg{background-position:58% center}
+  .hero h1{font-size:clamp(3.25rem,15vw,5.3rem)}
+  .hero-copy{font-size:1rem}.hero-stamp{width:86px;height:86px;right:18px;bottom:25px;font-size:.53rem}.hero-stamp strong{font-size:1rem}
+  .search-panel{margin-top:-18px}.search-inner{grid-template-columns:1fr;padding:17px;border-radius:18px}
+  .search-inner .btn{grid-column:auto;width:100%}
+  .stats{grid-template-columns:1fr 1fr;gap:18px;padding-top:30px}
+  .stat{padding:6px 12px}.stat strong{font-size:1.8rem}
+  .section{padding:68px 0}
+  .section-head{display:block}.section-head p{margin-top:13px}
+  .intro-grid{grid-template-columns:1fr;gap:35px}
+  .intro-art{min-height:370px}.intro-art img{height:350px;width:82%}.intro-art .small-art{height:175px;width:42%;border-width:6px}
+  .round-note{width:86px;height:86px;font-size:.65rem}
+  .benefits{gap:12px}.benefit{font-size:.84rem}
+  .dest-grid{grid-template-columns:1fr;gap:17px}.dest-card{min-height:420px}
+  .region-list{grid-template-columns:1fr 1fr}.region{padding:13px 10px;gap:8px}.region strong{font-size:.87rem}.region small{font-size:.72rem}
+  .experiences{gap:12px}.exp{min-height:210px}.exp-content{left:13px;right:13px;bottom:13px}.exp-content h3{font-size:1.2rem}
+  .globe-wrap{min-height:310px}.globe-orbit{width:min(300px,90%)}
+  .planner-card,.booking-form{padding:20px}
+  .planner-fields{grid-template-columns:1fr}.field.full{grid-column:auto}
+  .price-line{align-items:start;flex-direction:column}
+  .footer-top{display:block}.footer-links{margin-top:30px;gap:35px}
+  .footer-bottom{display:block}.footer-bottom span{display:block;margin-top:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<header>
+  <a class="brand" href="#home" aria-label="Wanderly home"><span class="brand-mark">W</span>Wanderly</a>
+  <button id="menuBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navList">☰</button>
+  <nav aria-label="Main navigation">
+    <ul id="navList">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#destinations">Explore India</a></li>
+      <li><a href="#experiences">Experiences</a></li>
+      <li><a href="#planner">Plan a trip</a></li>
+      <li><a class="nav-cta" href="#booking">Start planning ↗</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+<section class="hero" id="home" aria-labelledby="hero-title">
+  <div class="hero-bg" role="img" aria-label="Indian architecture in warm morning light"></div>
+  <div class="wrap">
+    <div class="hero-content">
+      <span class="eyebrow">A thousand stories. One incredible India.</span>
+      <h1 id="hero-title">India, <em>beyond</em><br>the ordinary.</h1>
+      <p class="hero-copy">From quiet Himalayan mornings to palaces painted by the sunset, discover journeys that bring you closer to the soul of India.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#destinations">Explore destinations <span aria-hidden="true">↗</span></a>
+        <a class="btn outline" href="#planner">Build your journey <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stamp" aria-hidden="true"><div>Made for wonder<strong>नमस्ते</strong>Made in India</div></div>
+  <div class="hero-bottom"></div>
+</section>
+
+<div class="wrap search-panel">
+  <form class="search-inner" id="searchForm" role="search">
+    <div class="field"><label for="searchDest">Where in India?</label><input id="searchDest" type="search" placeholder="Try Kerala, mountains, heritage…" autocomplete="off"></div>
+    <div class="field"><label for="searchType">Travel mood</label><select id="searchType"><option value="all">Any experience</option><option value="beach">Beaches</option><option value="mountain">Mountains</option><option value="heritage">Heritage</option><option value="nature">Nature</option><option value="spiritual">Spiritual</option></select></div>
+    <div class="field"><label for="searchBudget">Budget per person</label><select id="searchBudget"><option value="all">Any budget</option><option value="10000">Under ₹10,000</option><option value="20000">Under ₹20,000</option><option value="30000">Under ₹30,000</option></select></div>
+    <button class="btn dark" type="submit">Find journeys ↗</button>
+  </form>
+</div>
+
+<div class="wrap">
+  <div class="stats reveal">
+    <div class="stat"><strong data-count="28">0</strong><span>States to explore</span></div>
+    <div class="stat"><strong data-count="8">0</strong><span>Union territories</span></div>
+    <div class="stat"><strong data-count="100" data-suffix="+">0</strong><span>Ways to wander</span></div>
+    <div class="stat"><strong>1</strong><span>Incredible India</span></div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap intro-grid">
+    <div class="intro-art reveal">
+      <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1000&q=85" alt="Traditional Kerala backwaters surrounded by lush greenery" loading="lazy">
+      <img class="small-art" src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=700&q=85" alt="Ornate pink architecture in Jaipur" loading="lazy">
+      <div class="round-note">Rooted in culture<br>Made for wonder</div>
+    </div>
+    <div class="intro-copy reveal delay-1">
+      <span class="eyebrow">Travel with a little more meaning</span>
+      <h2>Not just places.<br><span style="color:var(--teal)">A feeling that stays.</span></h2>
+      <p>India is a thousand worlds in one. Wanderly helps you find the version that feels like yours — whether that means a hidden mountain village, a family-run homestay or a city waking up to the sound of temple bells.</p>
+      <div class="benefits">
+        <div class="benefit"><span>✦</span><span>Thoughtfully curated routes</span></div>
+        <div class="benefit"><span>✦</span><span>Local culture, closer up</span></div>
+        <div class="benefit"><span>✦</span><span>Flexible travel styles</span></div>
+        <div class="benefit"><span>✦</span><span>Clear trip estimates</span></div>
+      </div>
+      <a class="btn dark" href="#experiences">Find your kind of India ↗</a>
+    </div>
+  </div>
+</section>
+
+<section class="section destinations" id="destinations">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div><span class="eyebrow">Your next story starts here</span><h2 style="margin-top:14px">Find your India.</h2></div>
+      <p>Choose a mood, follow a road less travelled, or let a place surprise you. Your journey starts with a little curiosity.</p>
+    </div>
+    <div class="filters reveal" role="group" aria-label="Filter destinations">
+      <button class="filter active" data-filter="all" aria-pressed="true">All journeys</button>
+      <button class="filter" data-filter="beach" aria-pressed="false">🏝 Beaches</button>
+      <button class="filter" data-filter="mountain" aria-pressed="false">🏔 Mountains</button>
+      <button class="filter" data-filter="heritage" aria-pressed="false">🏰 Heritage</button>
+      <button class="filter" data-filter="nature" aria-pressed="false">🌿 Nature</button>
+      <button class="filter" data-filter="spiritual" aria-pressed="false">🪷 Spiritual</button>
+    </div>
+    <div class="dest-grid" id="destinationGrid">
+      <article class="dest-card reveal" tabindex="0" role="button" data-id="goa" data-name="Goa" data-cat="beach" data-price="8999" data-days="4" data-region="west" data-tags="beach coast food sunset" aria-label="Plan a trip to Goa">
+        <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=900&q=85" alt="Palm-lined tropical beach in Goa" loading="lazy">
+        <div class="card-top"><span class="pill">WEST INDIA</span><button class="heart" type="button" aria-label="Save Goa" aria-pressed="false">♡</button></div>
+        <div class="card-body"><h3>Goa</h3><p>Sunset shores, Portuguese lanes and slow beachside mornings.</p><div class="card-meta"><span>4 days · Beach escape</span><strong>From ₹8,999</strong><span class="card-arrow">↗</span></div></div>
+      </article>
+      <article class="dest-card reveal delay-1" tabindex="0" role="button" data-id="manali" data-name="Manali" data-cat="mountain" data-price="10499" data-days="5" data-region="north" data-tags="mountain himalaya adventure" aria-label="Plan a trip to Manali">
+        <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=900&q=85" alt="Mountain valley near Manali" loading="lazy">
+        <div class="card-top"><span class="pill">NORTH INDIA</span><button class="heart" type="button" aria-label="Save Manali" aria-pressed="false">♡</button></div>
+        <div class="card-body"><h3>Manali</h3><p>Pine-scented trails, mountain cafés and misty mornings.</p><div class="card-meta"><span>5 days · Mountain</span><strong>From ₹10,499</strong><span class="card-arrow">↗</span></div></div>
+      </article>
+      <article class="dest-card reveal delay-2" tabindex="0" role="button" data-id="kerala" data-name="Kerala" data-cat="nature" data-price="12999" data-days="5" data-region="south" data-tags="nature backwaters houseboat green" aria-label="Plan a trip to Kerala">
+        <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=900&q=85" alt="Kerala backwaters and green coconut palms" loading="lazy">
+        <div class="card-top"><span class="pill">SOUTH INDIA</span><button class="heart" type="button" aria-label="Save Kerala" aria-pressed="false">♡</button></div>
+        <div class="card-body"><h3>Kerala</h3><p>Quiet backwaters, tea-covered hills and tropical greens.</p><div class="card-meta"><span>5 days · Nature</span><strong>From ₹12,999</strong><span class="card-arrow">↗</span></div></div>
+      </article>
+      <article class="dest-card reveal" tabindex="0" role="button" data-id="ladakh" data-name="Ladakh" data-cat="mountain" data-price="22999" data-days="7" data-region="north" data-tags="mountain himalaya lakes adventure" aria-label="Plan a trip to Ladakh">
+        <img src="https://images.unsplash.com/photo-1581793745862-99fce1893272?auto=format&fit=crop&w=900&q=85" alt="Dramatic high-altitude Ladakh mountain landscape" loading="lazy">
+        <div class="card-top"><span class="pill">NORTH INDIA</span><button class="heart" type="button" aria-label="Save Ladakh" aria-pressed="false">♡</button></div>
+        <div class="card-body"><h3>Ladakh</h3><p>High passes, turquoise lakes and vast, starry skies.</p><div class="card-meta"><span>7 days · Adventure</span><strong>From ₹22,999</strong><span class="card-arrow">↗</span></div></div>
+      </article>
+      <article class="dest-card reveal delay-1" tabindex="0" role="button" data-id="jaipur" data-name="Jaipur" data-cat="heritage" data-price="7499" data-days="3" data-region="west" data-tags="heritage palace culture food" aria-label="Plan a trip to Jaipur">
+        <img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=900&q=85" alt="Jaipur's ornate pink palace architecture" loading="lazy">
+        <div class="card-top"><span class="pill">WEST INDIA</span><button class="heart" type="button" aria-label="Save Jaipur" aria-pressed="false">♡</button></div>
+        <div class="card-body"><h3>Jaipur</h3><p>Rose-hued palaces, colourful bazaars and royal stories.</p><div class="card-meta"><span>3 days · Heritage</span><strong>From ₹7,499</strong><span class="card-arrow">↗</span></div></div>
+      </article>
+      <article class="dest-card reveal delay-2" tabindex="0" role="button" data-id="agra" data-name="Agra" data-cat="heritage" data-price="5999" data-days="2" data-region="north" data-tags="heritage taj mahal architecture" aria-label="Plan a trip to Agra">
+        <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=900&q=85" alt="Taj Mahal at sunrise" loading="lazy">
+        <div class="card-top"><span class="pill">NORTH INDIA</span><button class="heart" type="button" aria-label="Save Agra" aria-pressed="false">♡</button></div>
+        <div class="card-body"><h3>Agra</h3><p>Marble masterpieces and the Taj Mahal at first light.</p><div class="card-meta"><span>2 days · Heritage</span><strong>From ₹5,999</strong><span class="card-arrow">↗</span></div></div>
+      </article>
+      <article class="dest-card reveal" tabindex="0" role="button" data-id="andaman" data-name="Andaman Islands" data-cat="beach" data-price="24999" data-days="6" data-region="south" data-tags="beach islands ocean diving" aria-label="Plan a trip to Andaman Islands">
+        <img src="https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&w=900&q=85" alt="Clear blue tropical sea around an island" loading="lazy">
+        <div class="card-top"><span class="pill">ISLAND INDIA</span><button class="heart" type="button" aria-label="Save Andaman Islands" aria-pressed="false">♡</button></div>
+        <div class="card-body"><h3>Andaman</h3><p>Clear water, coral reefs and faraway island days.</p><div class="card-meta"><span>6 days · Island escape</span><strong>From ₹24,999</strong><span class="card-arrow">↗</span></div></div>
+      </article>
+      <article class="dest-card reveal delay-1" tabindex="0" role="button" data-id="varanasi" data-name="Varanasi" data-cat="spiritual" data-price="6999" data-days="3" data-region="east" data-tags="spiritual ghats culture river" aria-label="Plan a trip to Varanasi">
+        <img src="https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=900&q=85" alt="Varanasi ghats along the Ganges" loading="lazy">
+        <div class="card-top"><span class="pill">EAST INDIA</span><button class="heart" type="button" aria-label="Save Varanasi" aria-pressed="false">♡</button></div>
+        <div class="card-body"><h3>Varanasi</h3><p>River sunrises, timeless lanes and living traditions.</p><div class="card-meta"><span>3 days · Culture</span><strong>From ₹6,999</strong><span class="card-arrow">↗</span></div></div>
+      </article>
+      <article class="dest-card reveal delay-2" tabindex="0" role="button" data-id="udaipur" data-name="Udaipur" data-cat="heritage" data-price="9999" data-days="3" data-region="west" data-tags="heritage lake palace romance" aria-label="Plan a trip to Udaipur">
+        <img src="https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=900&q=85" alt="Udaipur's lakeside palaces and old city" loading="lazy">
+        <div class="card-top"><span class="pill">WEST INDIA</span><button class="heart" type="button" aria-label="Save Udaipur" aria-pressed="false">♡</button></div>
+        <div class="card-body"><h3>Udaipur</h3><p>Lake palaces, rooftop sunsets and romantic old streets.</p><div class="card-meta"><span>3 days · Royal escape</span><strong>From ₹9,999</strong><span class="card-arrow">↗</span></div></div>
+      </article>
+    </div>
+    <p class="empty-state" id="emptyState">No destinations match those filters. Try another mood or search.</p>
+  </div>
+</section>
+
+<section class="section region-band">
+  <div class="wrap region-inner">
+    <div class="reveal">
+      <span class="eyebrow">One country, countless worlds</span>
+      <h2>Take the scenic<br>route through India.</h2>
+      <p>Every region has its own rhythm, flavours and stories. Start with a direction and see where it takes you.</p>
+    </div>
+    <div class="region-list reveal delay-1">
+      <a class="region" href="#destinations" data-region-filter="north"><span class="emoji">🏔️</span><span><strong>North India</strong><small>Mountains & monuments</small></span></a>
+      <a class="region" href="#destinations" data-region-filter="south"><span class="emoji">🌴</span><span><strong>South India</strong><small>Coasts & green escapes</small></span></a>
+      <a class="region" href="#destinations" data-region-filter="west"><span class="emoji">🏰</span><span><strong>West India</strong><small>Royal stories & beaches</small></span></a>
+      <a class="region" href="#destinations" data-region-filter="east"><span class="emoji">🪷</span><span><strong>East India</strong><small>Culture & sacred rivers</small></span></a>
+      <a class="region" href="#destinations" data-region-filter="northeast"><span class="emoji">🌿</span><span><strong>Northeast</strong><small>Cloud forests & hills</small></span></a>
+      <a class="region" href="#planner"><span class="emoji">✨</span><span><strong>Your own route</strong><small>Make it personal</small></span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="experiences">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div><span class="eyebrow">Find what moves you</span><h2 style="margin-top:14px">Travel by feeling.</h2></div>
+      <p>Sometimes the best trip begins with what you want to feel, not where you want to go.</p>
+    </div>
+    <div class="experiences">
+      <a class="exp reveal" href="#destinations" data-exp-filter="heritage"><img src="https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=700&q=80" alt="Indian heritage architecture" loading="lazy"><div class="exp-content"><span>Stories in stone</span><h3>Heritage trails</h3></div></a>
+      <a class="exp reveal delay-1" href="#destinations" data-exp-filter="mountain"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=700&q=80" alt="Snowy mountain peaks" loading="lazy"><div class="exp-content"><span>Find your altitude</span><h3>Mountain escapes</h3></div></a>
+      <a class="exp reveal delay-2" href="#destinations" data-exp-filter="beach"><img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=700&q=80" alt="Tropical ocean beach" loading="lazy"><div class="exp-content"><span>Follow the tide</span><h3>Coastal days</h3></div></a>
+      <a class="exp reveal delay-3" href="#destinations" data-exp-filter="spiritual"><img src="https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=700&q=80" alt="Sacred riverfront in India" loading="lazy"><div class="exp-content"><span>Pause and reconnect</span><h3>Spiritual journeys</h3></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="section globe-section">
+  <div class="wrap globe-grid">
+    <div class="reveal">
+      <span class="eyebrow">A whole world in one country</span>
+      <h2 style="margin-top:15px">Let curiosity<br>be your compass.</h2>
+      <p>Mountains to mangroves, desert dunes to rainforest trails — India rewards the curious. Choose a destination above or build a journey that feels entirely yours.</p>
+      <a class="btn" href="#destinations">Explore the map of possibilities ↗</a>
+    </div>
+    <div class="globe-wrap reveal delay-1" aria-label="Decorative animated globe highlighting India">
+      <div class="globe-orbit">
+        <div class="globe-core"><span class="globe-pin pin1"></span><span class="globe-pin pin2"></span><span class="globe-pin pin3"></span></div>
+      </div>
+      <span class="globe-label label1">India ✦</span><span class="globe-label label2">28 states · 8 UTs</span>
+    </div>
+  </div>
+</section>
+
+<section class="section planner" id="planner">
+  <div class="wrap planner-grid">
+    <div class="planner-intro reveal">
+      <span class="eyebrow">Your journey, your way</span>
+      <h2>Make room<br>for wonder.</h2>
+      <p>Choose a destination, set your pace and pick your stay style. Get an instant indicative estimate to start planning.</p>
+      <p style="font-size:.86rem">Prices are illustrative planning estimates, not live quotes. Transport, season, availability and inclusions can change the final cost.</p>
+    </div>
+    <div class="planner-card reveal delay-1">
+      <h3>Build your journey</h3>
+      <div class="planner-fields">
+        <div class="field full"><label for="planDest">Destination</label><select id="planDest">
+          <option value="goa">Goa</option><option value="manali">Manali</option><option value="kerala">Kerala</option><option value="ladakh">Ladakh</option><option value="jaipur">Jaipur</option><option value="agra">Agra</option><option value="andaman">Andaman Islands</option><option value="varanasi">Varanasi</option><option value="udaipur">Udaipur</option>
+        </select></div>
+        <div class="field"><label for="planDays" class="range-head"><span>Trip length</span><output id="daysOut" for="planDays">5 days</output></label><input id="planDays" type="range" min="2" max="14" value="5"></div>
+        <div class="field"><label for="planPeople" class="range-head"><span>Travellers</span><output id="peopleOut" for="planPeople">2 people</output></label><input id="planPeople" type="range" min="1" max="10" value="2"></div>
+        <div class="field full"><label for="planStay">Stay style</label><select id="planStay"><option value="1">Comfort — thoughtful essentials</option><option value="1.55">Premium — extra comfort</option><option value="2.25">Signature — special stays</option></select></div>
+      </div>
+      <div class="price-box" aria-live="polite">
+        <span class="muted">Estimated trip total</span>
+        <div class="price-line"><strong id="totalPrice">₹22,498</strong><span id="perPerson" class="muted">₹11,249 per person</span></div>
+        <p id="priceExplain">Illustrative estimate for 2 travellers over 5 days, before any live availability check.</p>
+        <button class="btn" id="requestTrip" type="button">Request this journey ↗</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section booking-section" id="booking">
+  <div class="wrap booking-grid">
+    <div class="booking-copy reveal">
+      <span class="eyebrow">Your next chapter starts here</span>
+      <h2>Tell us what<br>you dream of.</h2>
+      <p>Share a few details about your trip. This demo form will validate your request and prepare a message for you to send. No booking is made automatically.</p>
+      <div class="booking-points">
+        <div><span>✓</span> Your selected destination is carried over</div>
+        <div><span>✓</span> Clear expectations, no pretend live prices</div>
+        <div><span>✓</span> Works for Indian and international travellers</div>
+      </div>
+    </div>
+    <div class="booking-form reveal delay-1">
+      <h3>Plan with Wanderly</h3>
+      <form id="bookingForm" novalidate>
+        <div class="field"><label for="fullName">Your name</label><input id="fullName" name="name" autocomplete="name" placeholder="e.g. Aanya Sharma" required minlength="2"></div>
+        <div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+        <div class="field"><label for="travelDate">Preferred travel date</label><input id="travelDate" name="date" type="date" required></div>
+        <div class="field"><label for="bookDest">Destination</label><select id="bookDest" name="destination" required>
+          <option value="">Choose a destination</option><option>Goa</option><option>Manali</option><option>Kerala</option><option>Ladakh</option><option>Jaipur</option><option>Agra</option><option>Andaman Islands</option><option>Varanasi</option><option>Udaipur</option>
+        </select></div>
+        <div class="field"><label for="notes">What would make this trip special? <span style="font-weight:400">(optional)</span></label><textarea id="notes" name="notes" placeholder="Interests, budget, special requests…"></textarea></div>
+        <p class="form-status" id="formStatus" aria-live="polite"></p>
+        <button class="btn dark" type="submit">Prepare my request ↗</button>
+      </form>
+      <div class="success" id="successMessage" role="status"><strong>Your request is ready.</strong><p id="successText" style="margin-top:8px"></p><a class="btn dark small" id="emailLink" href="#" style="margin-top:14px">Open email draft ↗</a><p style="font-size:.8rem;margin-top:10px">This demo does not submit to a server or guarantee a reservation.</p></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand"><a class="brand" href="#home"><span class="brand-mark">W</span>Wanderly</a><p>India, beyond the ordinary. Thoughtful journeys through the places, people and stories that make this country extraordinary.</p></div>
+      <div class="footer-links">
+        <div class="footer-col"><strong>Explore</strong><a href="#destinations">Destinations</a><a href="#experiences">Experiences</a><a href="#planner">Trip planner</a></div>
+        <div class="footer-col"><strong>Wanderly</strong><a href="#home">Our story</a><a href="#booking">Contact</a><a href="#booking">Plan a journey</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>© <span id="year"></span> Wanderly. Portfolio concept project.</span><span>Made with curiosity in India 🇮🇳</span></div>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const cards = [...document.querySelectorAll('.dest-card')];
+  const money = n => '₹' + Math.round(n).toLocaleString('en-IN');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let toastTimer;
+
+  // Mobile navigation
+  const menuBtn = $('menuBtn'), navList = $('navList');
+  menuBtn.addEventListener('click', () => {
+    const open = navList.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    menuBtn.textContent = open ? '×' : '☰';
+  });
+  navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navList.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded','false');
+    menuBtn.setAttribute('aria-label','Open navigation menu');
+    menuBtn.textContent = '☰';
+  }));
+
+  // Scroll progress and active navigation
+  const progress = $('progress');
+  const navLinks = [...document.querySelectorAll('nav a[href^="#"]')];
+  function onScroll(){
+    const max = document.documentElement.scrollHeight - innerHeight;
+    progress.style.width = (max > 0 ? scrollY / max * 100 : 0) + '%';
+  }
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  if ('IntersectionObserver' in window) {
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id));
+        }
+      });
+    }, {rootMargin:'-35% 0px -55% 0px'});
+    ['home','destinations','experiences','planner','booking'].forEach(id => { const el=$(id); if(el) sectionObserver.observe(el); });
+  }
+
+  // Reveal-on-scroll, with fallback
+  const revealEls = document.querySelectorAll('.reveal');
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, {threshold:.12, rootMargin:'0px 0px -30px 0px'});
+    revealEls.forEach(el => revealObserver.observe(el));
+  } else revealEls.forEach(el => el.classList.add('visible'));
+
+  // Count-up stats only once
+  const countEls = document.querySelectorAll('[data-count]');
+  function animateCount(el){
+    const target = Number(el.dataset.count), suffix = el.dataset.suffix || '';
+    if (reduceMotion) { el.textContent = target + suffix; return; }
+    const start = performance.now(), duration = 1300;
+    function frame(now){
+      const t = Math.min((now-start)/duration,1), eased = 1-Math.pow(1-t,3);
+      el.textContent = Math.round(target*eased) + suffix;
+      if(t<1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  if ('IntersectionObserver' in window) {
+    const countObserver = new IntersectionObserver((entries, observer) => entries.forEach(entry => {
+      if(entry.isIntersecting){ animateCount(entry.target); observer.unobserve(entry.target); }
+    }), {threshold:.7});
+    countEls.forEach(el=>countObserver.observe(el));
+  } else countEls.forEach(animateCount);
+
+  // Destination filters
+  let activeCategory = 'all', activeRegion = 'all', searchText = '', maxBudget = Infinity;
+  function applyFilters(){
+    let visible = 0;
+    cards.forEach(card => {
+      const catMatch = activeCategory === 'all' || card.dataset.cat === activeCategory;
+      const regionMatch = activeRegion === 'all' || card.dataset.region === activeRegion;
+      const text = (card.dataset.name + ' ' + card.dataset.tags + ' ' + card.dataset.region).toLowerCase();
+      const searchMatch = !searchText || text.includes(searchText);
+      const budgetMatch = Number(card.dataset.price) <= maxBudget;
+      const show = catMatch && regionMatch && searchMatch && budgetMatch;
+      card.classList.toggle('hidden', !show);
+      if(show) visible++;
+    });
+    $('emptyState').style.display = visible ? 'none' : 'block';
+  }
+  document.querySelectorAll('.filter').forEach(btn => btn.addEventListener('click', () => {
+    activeCategory = btn.dataset.filter; activeRegion = 'all';
+    document.querySelectorAll('.filter').forEach(b => {
+      const active = b === btn; b.classList.toggle('active', active); b.setAttribute('aria-pressed', String(active));
+    });
+    applyFilters();
+  }));
+  document.querySelectorAll('[data-region-filter]').forEach(link => link.addEventListener('click', () => {
+    activeRegion = link.dataset.regionFilter; activeCategory = 'all'; searchText = ''; maxBudget = Infinity;
+    $('searchDest').value = ''; $('searchType').value = 'all'; $('searchBudget').value = 'all';
+    document.querySelectorAll('.filter').forEach(b => {
+      const active = b.dataset.filter === 'all'; b.classList.toggle('active',active); b.setAttribute('aria-pressed',String(active));
+    });
+    applyFilters();
+  }));
+  document.querySelectorAll('[data-exp-filter]').forEach(link => link.addEventListener('click', () => {
+    activeCategory = link.dataset.expFilter; activeRegion = 'all';
+    document.querySelectorAll('.filter').forEach(b => {
+      const active = b.dataset.filter === activeCategory; b.classList.toggle('active',active); b.setAttribute('aria-pressed',String(active));
+    });
+    applyFilters();
+  }));
+  $('searchForm').addEventListener('submit', e => {
+    e.preventDefault();
+    searchText = $('searchDest').value.trim().toLowerCase();
+    activeCategory = $('searchType').value;
+    maxBudget = $('searchBudget').value === 'all' ? Infinity : Number($('searchBudget').value);
+    activeRegion = 'all';
+    document.querySelectorAll('.filter').forEach(b => {
+      const active = b.dataset.filter === activeCategory; b.classList.toggle('active',active); b.setAttribute('aria-pressed',String(active));
+    });
+    applyFilters(); $('destinations').scrollIntoView({behavior:reduceMotion?'auto':'smooth'});
+  });
+  $('searchDest').addEventListener('input', e => { if(!e.target.value.trim()){searchText='';applyFilters();} });
+
+  // Save/favourite destinations (in-memory only)
+  document.querySelectorAll('.heart').forEach(btn => btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const saved = btn.classList.toggle('saved');
+    btn.textContent = saved ? '♥' : '♡';
+    btn.setAttribute('aria-pressed', String(saved));
+    showToast(saved ? 'Added to your saved journeys.' : 'Removed from saved journeys.');
+  }));
+
+  // Planner price estimate; values are illustrative, not live rates
+  const basePrices = {goa:8999,manali:10499,kerala:12999,ladakh:22999,jaipur:7499,agra:5999,andaman:24999,varanasi:6999,udaipur:9999};
+  const destNames = {goa:'Goa',manali:'Manali',kerala:'Kerala',ladakh:'Ladakh',jaipur:'Jaipur',agra:'Agra',andaman:'Andaman Islands',varanasi:'Varanasi',udaipur:'Udaipur'};
+  function updateEstimate(){
+    const id=$('planDest').value, days=Number($('planDays').value), people=Number($('planPeople').value), tier=Number($('planStay').value);
+    const total = basePrices[id] * (days/4) * people * tier;
+    $('daysOut').textContent = days + (days===1?' day':' days');
+    $('peopleOut').textContent = people + (people===1?' person':' people');
+    $('totalPrice').textContent = money(total);
+    $('perPerson').textContent = money(total/people) + ' per person';
+    $('priceExplain').textContent = `Illustrative estimate for ${people} traveller${people===1?'':'s'} over ${days} days in ${destNames[id]}. Not a live quote.`;
+  }
+  ['planDest','planDays','planPeople','planStay'].forEach(id => $(id).addEventListener('input', updateEstimate));
+  updateEstimate();
+
+  // Select a destination card to plan it
+  function chooseDestination(card){
+    const id=card.dataset.id;
+    $('planDest').value=id; $('bookDest').value=destNames[id];
+    const days = Number(card.dataset.days);
+    $('planDays').value=days; updateEstimate();
+    $('planner').scrollIntoView({behavior:reduceMotion?'auto':'smooth'});
+    showToast(`${destNames[id]} selected — tailor your journey below.`);
+  }
+  cards.forEach(card => {
+    card.addEventListener('click', e => { if(e.target.closest('.heart')) return; chooseDestination(card); });
+    card.addEventListener('keydown', e => {
+      if((e.key==='Enter'||e.key===' ') && !e.target.closest('.heart')) { e.preventDefault(); chooseDestination(card); }
+    });
+  });
+  $('requestTrip').addEventListener('click', () => {
+    const id=$('planDest').value;
+    $('bookDest').value=destNames[id];
+    $('notes').value = `Interested in ${destNames[id]}, ${$('planDays').value} days, ${$('planPeople').value} traveller(s), ${$('planStay').selectedOptions[0].text}. Indicative estimate: ${$('totalPrice').textContent}.`;
+    $('booking').scrollIntoView({behavior:reduceMotion?'auto':'smooth'});
+    showToast('Your trip details have been added to the request form.');
+  });
+
+  // Booking form: validates locally, then creates a user-controlled email draft.
+  const dateInput = $('travelDate');
+  const today = new Date();
+  const localToday = new Date(today.getTime() - today.getTimezoneOffset()*60000).toISOString().slice(0,10);
+  dateInput.min = localToday;
+  $('bookingForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const name=$('fullName').value.trim(), email=$('email').value.trim(), date=dateInput.value, dest=$('bookDest').value, notes=$('notes').value.trim();
+    const status=$('formStatus'); status.textContent='';
+    if(name.length<2){status.textContent='Please enter your name (at least 2 characters).';$('fullName').focus();return;}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){status.textContent='Please enter a valid email address.';$('email').focus();return;}
+    if(!date || date<localToday){status.textContent='Please choose today or a future travel date.';dateInput.focus();return;}
+    if(!dest){status.textContent='Please choose a destination.';$('bookDest').focus();return;}
+    const subject=`Wanderly trip request — ${dest}`;
+    const body=`Hello Wanderly,%0D%0A%0D%0AI'd like to enquire about a trip to ${encodeURIComponent(dest)}.%0D%0AName: ${encodeURIComponent(name)}%0D%0AEmail: ${encodeURIComponent(email)}%0D%0APreferred date: ${encodeURIComponent(date)}%0D%0AAdditional details: ${encodeURIComponent(notes || 'Not specified')}%0D%0A%0D%0APlease share availability and a detailed quote.`;
+    $('successText').textContent=`Thanks, ${name}. Your request details are ready. Open the email draft to send it; this demo has not sent or stored your information.`;
+    $('emailLink').href=`mailto:hello@wanderly.in?subject=${encodeURIComponent(subject)}&body=${body}`;
+    $('successMessage').classList.add('show');
+    $('successMessage').scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'nearest'});
+  });
+
+  $('year').textContent = new Date().getFullYear();
+  function showToast(message){
+    const toast=$('toast'); toast.textContent=message; toast.classList.add('show');
+    clearTimeout(toastTimer); toastTimer=setTimeout(()=>toast.classList.remove('show'),2600);
+  }
+})();
+</script>
+</body>
+</html>
